@@ -1,0 +1,13 @@
+<h2>Create an Album</h2>
+
+<form>
+    PatientID: <input type="text" id="album.patientId" ng-model="album.patientId" />
+    <br />
+    Time: <input type="text" id="album.time" ng-model="album.time" />
+    <br />
+    <br />
+    Diagnosis: <textarea rows="4" cols="50" id="album.detail" ng-model="album.detail"></textarea>
+    <br />
+    <button ng-click="create()" id="save-album">Save</button>
+    <button ng-click="goto('/')">Cancel</button>
+</form>
