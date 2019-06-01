@@ -1,11 +1,12 @@
 var module = angular.module('photoz', ['ngRoute', 'ngResource']);
 
-var resourceServerId = 'EHR-restful-api';
+var resourceServerId = 'HP1';
 var apiUrl = window.location.origin + '/' + resourceServerId;
+var hospitals = ["HP1", "HP2"];
 
 angular.element(document).ready(function ($http) {
     var keycloak = new Keycloak('keycloak.json');
-    keycloak.init({onLoad: 'login-required'}).success(function () {
+    keycloak.init({ onLoad: 'login-required' }).success(function () {
         console.log('User is now authenticated.');
 
         module.factory('Identity', function () {
@@ -39,23 +40,25 @@ module.config(function ($httpProvider, $routeProvider) {
 });
 
 module.controller('GlobalCtrl', function ($scope, $http, $route, $location, Album, Identity) {
-    Album.query(function (albums) {
+
+    Album.query({ rsId: resourceServerId }, function (albums) {
         $scope.albums = albums;
     });
-    Album.shares(function (albums) {
+
+    Album.shares({ rsId: resourceServerId }, function (albums) {
         $scope.shares = albums;
     });
 
     $scope.Identity = Identity;
 
     $scope.deleteAlbum = function (album) {
-        new Album(album).$delete({id: album.id}, function () {
+        new Album(album).$delete({ rsId: resourceServerId, id: album.id }, function () {
             $route.reload();
         });
     }
 
     $scope.requestDeleteAccess = function (album) {
-        new Album(album).$delete({id: album.id}, function () {
+        new Album(album).$delete({ rsId: resourceServerId, id: album.id }, function () {
             // no-op
         }, function () {
             document.getElementById("output").innerHTML = 'Sent authorization request to resource owner, please, wait for approval.';
@@ -70,6 +73,17 @@ module.controller('GlobalCtrl', function ($scope, $http, $route, $location, Albu
         }
         return false;
     }
+
+    $scope.hospitals = hospitals;
+
+    $scope.selectedHospital = resourceServerId;
+
+    $scope.changeHospital = function () {
+        resourceServerId = $scope.selectedHospital;
+        apiUrl = window.location.origin + '/' + resourceServerId
+        console.log(apiUrl);
+        $route.reload();
+    }
 });
 
 module.controller('TokenCtrl', function ($scope, Identity) {
@@ -82,7 +96,7 @@ module.controller('TokenCtrl', function ($scope, Identity) {
     }
 
     $scope.requestEntitlements = function () {
-        Identity.authorization.entitlement('EHR-restful-api').then(function (rpt) {
+        Identity.authorization.entitlement(resourceServerId).then(function (rpt) {
             $scope.showRpt()
         });
     }
@@ -93,11 +107,11 @@ module.controller('TokenCtrl', function ($scope, Identity) {
 module.controller('AlbumCtrl', function ($scope, $http, $routeParams, $location, Album) {
     $scope.album = {};
     if ($routeParams.id) {
-        $scope.album = Album.get({id: $routeParams.id});
+        $scope.album = Album.get({ rsId: resourceServerId, id: $routeParams.id });
     }
     $scope.create = function () {
         var newAlbum = new Album($scope.album);
-        newAlbum.$save({}, function (data) {
+        newAlbum.$save({ rsId: resourceServerId }, function (data) {
             $location.path('/');
         });
     };
@@ -107,7 +121,7 @@ module.controller('AlbumCtrl', function ($scope, $http, $routeParams, $location,
 });
 
 module.controller('ProfileCtrl', function ($scope, $http, $routeParams, $location, Profile) {
-    $scope.profile = Profile.get();
+    $scope.profile = Profile.get({rsId :resourceServerId});
 });
 
 module.controller('AdminAlbumCtrl', function ($scope, $http, $route, $location, AdminAlbum, Album) {
@@ -116,24 +130,25 @@ module.controller('AdminAlbumCtrl', function ($scope, $http, $route, $location, 
         $scope.albums = data;
     });
     $scope.deleteAlbum = function (album) {
-        new Album(album).$delete({id: album.id}, function () {
+        new Album(album).$delete({ rsId: resourceServerId, id: album.id }, function () {
             $route.reload();
         });
     }
 });
 
 module.factory('Album', ['$resource', function ($resource) {
-    return $resource(apiUrl + '/EHR/:id', {id: '@id'}, {
-            shares: {url: apiUrl + '/EHR/shares', method: 'GET', isArray: true}
-        });
+
+    return $resource(window.location.origin + '/:rsId/EHR/:id', { id: '@id' }, {
+        shares: { url: window.location.origin + '/:rsId/EHR/shares', method: 'GET', isArray: true }
+    });
 }]);
 
 module.factory('Profile', ['$resource', function ($resource) {
-    return $resource(apiUrl + '/profile');
+    return $resource(window.location.origin + '/:rsId/profile');
 }]);
 
 module.factory('AdminAlbum', ['$resource', function ($resource) {
-    return $resource(apiUrl + '/admin/EHR/:id');
+    return $resource(window.location.origin + '/:rsId/admin/EHR/:id');
 }]);
 
 module.factory('authInterceptor', function ($q, $injector, $timeout, Identity) {
@@ -152,7 +167,7 @@ module.factory('authInterceptor', function ($q, $injector, $timeout, Identity) {
             var status = rejection.status;
 
             if (status == 403 || status == 401) {
-                var retry = (!rejection.config.retry ||  rejection.config.retry < 1);
+                var retry = (!rejection.config.retry || rejection.config.retry < 1);
 
                 if (!retry) {
                     document.getElementById("output").innerHTML = 'You can not access or perform the requested operation on this resource.';

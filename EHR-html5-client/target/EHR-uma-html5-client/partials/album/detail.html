@@ -1,4 +1,9 @@
 <h2>{{album.id}}</h2>
-
+<div>
+    <p>PatientID : {{album.patientId}}</p>
+    <p>DoctorID : {{album.doctorId}}</p>
+    <p>Time : {{album.time}}</p>
+    <p>Detail : {{album.detail}}</p>
+</div>
 <div data-ng-show="Identity.isAdmin()"><a href="#/admin/album">Back to albums</a></div>
 <div data-ng-show="!Identity.isAdmin()"><a href="#/">Back to main page</a></div>

@@ -47,7 +47,8 @@
         };
 
         this.isAdmin = function () {
-            return this.hasRole("doctor","EHR-restful-api");
+            //console.log(resourceServerId);
+            return this.hasRole("doctor",resourceServerId);
         };
       
         this.authorization = new KeycloakAuthorization(keycloak);

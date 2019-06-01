@@ -1,17 +1,17 @@
 <h2><span>Welcome To Photoz, {{Identity.claims.name}}</span></h2>
+<select ng-model="selectedHospital" ng-change="changeHospital()" ng-options="x for x in hospitals">
+</select>
+<hr />
+<a href="#/profile">My Profile</a>
 <div data-ng-show="Identity.isAdmin()">
     <b>InHospital: </b>
     <br />
     [<a href="#/admin/album" id="admin-albums">View Records</a>]
     <br />
-    [<a href="#/album/create" id="create-album">Write Record</a>]    
+    [<a href="#/album/create" id="create-album">Write Record</a>]
 </div>
-<hr />
-<br />
 <div data-ng-show="!Identity.isAdmin()">
-    <a href="#/profile">My Profile</a>
-    <br />
-    <h3>Your Albums</h3>
+    <h3>Your Health Records</h3>
     <span data-ng-show="albums.length == 0" id="resource-list-empty">You don't have any albums, yet.</span>
     <table class="table" data-ng-show="albums.length > 0">
         <tr data-ng-repeat="p in albums">
