@@ -1,0 +1,11 @@
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/album/SharedAlbum.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/util/Resources.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/album/ProfileService.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/admin/AdminAlbumService.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/ErrorResponse.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/album/AlbumService.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/entity/Photo.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/entity/Album.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/PhotozApplication.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/util/Transaction.java
+/Users/larry_lai/Desktop/keycloak-quickstarts/umaEHR/HP2/src/main/java/org/keycloak/example/photoz/util/TransactionInterceptor.java

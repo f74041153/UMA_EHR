@@ -1,0 +1,56 @@
+{
+  "realm": "EHR",
+  "auth-server-url": "http://140.119.101.130:8550/auth",
+  "ssl-required": "none",
+  "resource": "HP2",
+  "bearer-only" : true,
+  "credentials": {
+    "secret": "7b421900-3a67-42f7-b52f-8424e6123b63"
+  },
+  "policy-enforcer": {
+    "enforcement-mode": "PERMISSIVE",
+    "user-managed-access": {},
+    "paths": [
+      {
+        "name" : "EHR Resource",
+        "path" : "/EHR/{id}",
+        "methods" : [
+          {
+            "method": "DELETE",
+            "scopes" : ["EHR:delete"]
+          },
+          {
+            "method": "GET",
+            "scopes" : ["EHR:view"]
+          }
+        ]
+      },
+      {
+        "name" : "EHR Resource",
+        "path" : "/EHR",
+        "methods" : [
+          {
+            "method": "GET",
+            "scopes" : ["EHR:list"]
+          },
+          {
+            "method": "POST",
+            "scopes" : ["EHR:write"]
+          }
+        ]
+      },
+      {
+        "name" : "EHR Resource",
+        "path" : "/EHR/shares",
+        "enforcement-mode": "DISABLED"
+      },
+      {
+        "path" : "/profile"
+      },
+      {
+        "name" : "Admin Resources",
+        "path" : "/admin/*"
+      }
+    ]
+  }
+}
