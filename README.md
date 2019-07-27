@@ -1,3 +1,6 @@
+## What is it?
+`UMA_EHR` is a project modified from `keycloak-quickstarts`. 
+It demonstrates a simplified way to exchange health record based on UMA framework.
 ## Notice
 Please place the whole directory "UMA_EHR" under "keycloak-quickstarts" as the same level of "app-authz-uma-photoz".That is
 ```
