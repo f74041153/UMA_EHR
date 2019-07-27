@@ -24,13 +24,13 @@ ID,PWD :
 ## Deploy and Run
 ### HP1
 ```
-cd HP1
-mvn clean package wildfly:deploy
+$ cd HP1
+$ mvn clean package wildfly:deploy
 ```
 ### HP2
 ```
-cd HP2
-mvn clean package wildfly:deploy
+$ cd HP2
+$ mvn clean package wildfly:deploy
 ```
 ### EHR-html5-client
 ```
